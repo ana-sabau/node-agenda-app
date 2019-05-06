@@ -63,7 +63,7 @@ function submitNewPerson(firstName, lastName, phone) {
         return r.json();
     }).then(function (status) {
         if (status.success) {
-            inlineAddPerson(firstName, lastName, phone);
+            inlineAddPerson(status.id, firstName, lastName, phone);
         }
         else {
             console.warn('not saved', status);
@@ -71,8 +71,9 @@ function submitNewPerson(firstName, lastName, phone) {
     })
 }
 
-function inlineAddPerson(firstName, lastName, phone) {
+function inlineAddPerson(id, firstName, lastName, phone) {
     allPersons.push({
+        id,
         firstName: firstName,
         lastName: lastName,
         phone: phone
