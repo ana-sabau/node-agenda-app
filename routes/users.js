@@ -43,6 +43,36 @@ router.post('/add', function(req, res, next) {
   });
 });
 
+
+router.put('/update', function(req, res, next) {
+  const id = req.body.id;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const phone = req.body.phone;
+  console.warn ('update', id, firstName, lastName, phone);
+  
+  var persons = require('../public/data/persons.json'); //fisierul e la 2 nivele in sus fata de folderul curent
+
+  // arrow function
+  const person = persons.find((p) => {
+    return p.id == id;
+  });
+  person.firstName = firstName;
+  person.lastName = lastName;
+  person.phone = phone;
+
+  var str = JSON.stringify(persons, null, 2);
+
+  fs.writeFileSync('./public/data/persons.json', str); //fs.write citeste de la nivelul principal al proiectului, de aceea e ./public
+
+  res.json({
+    success: true,
+    id: id,
+    message: 'Done'
+  });
+});
+
+
 router.delete('/delete', function(req, res, next) {
   var id = req.body.id;
   console.warn('remove person', id);
